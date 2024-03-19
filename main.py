@@ -3,10 +3,9 @@ def main():
     book = get_book(book_path)
 
     word_count = count_words(book)
-    print("Number of words:", word_count)
+    character_count = sort_characters(count_characters(book))
 
-    character_count = count_characters(book)
-    print("Number of characters:", character_count)
+    print_report(book_path, word_count, character_count)
 
 def get_book(path):
     with open(path) as book:
@@ -26,5 +25,18 @@ def count_characters(text):
         characters[character] = characters[character] + 1 if character in characters else 1
 
     return characters
+
+def sort_characters(characters):
+    return dict(sorted(characters.items(), key=lambda pair: pair[1], reverse=True))
+
+def print_report(book_path, word_count, character_count):
+    print(f"--- Begin report of {book_path} ---")
+    print(f"{word_count} words found in the document")
+    print()
+
+    for character, total in character_count.items():
+        print(f"The '{character}' character was found {total} times")
+
+    print("--- End report ---")
 
 main()
